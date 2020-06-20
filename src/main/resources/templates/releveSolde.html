@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Relevés de solde</title>
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="webjars/datatables/1.10.21/css/dataTables.bootstrap.min.css">
+
+    <script type="text/javascript" th:src="@{webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/datatables/1.10.21/js/jquery.dataTables.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/datatables/1.10.21/js/dataTables.bootstrap4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/datatableLoading.js}"></script>
+
+</head>
+<body>
+
+
+    <div class="container">
+
+        <form>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" aria-describedby="date" placeholder="Choisissez une date">
+            </div>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+
+        <table id="datatable" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Mandat</th>
+                <th>Libellé Mandant</th>
+                <th>Mandataire</th>
+                <th>Libellé Mandataire</th>
+                <th>ACNO</th>
+                <th>Security ID</th>
+                <th>Eng Long Name</th>
+                <th>Instrctgry</th>
+                <th>Normal Quantity</th>
+            </tr>
+            </thead>
+            <tbody th:each="releveSolde: ${releveDeSoldes}">
+            <tr>
+                <td th:text="${releveSolde.mandant}" />
+                <td th:text="${releveSolde.libelleMandat}" />
+                <td th:text="${releveSolde.mandataire}" />
+                <td th:text="${releveSolde.libelleMandataire}" />
+                <td th:text="${releveSolde.releveDeSoldeId.acno}" />
+                <td th:text="${releveSolde.releveDeSoldeId.securityID}" />
+                <td th:text="${releveSolde.normalQuantity}" />
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

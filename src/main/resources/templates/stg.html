@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>STG !</h1>
+<table th:each="stgBkpSecac: ${stgBkpSecacs}">
+    <tr>
+        <td th:text="${stgBkpSecac.acActivationDate}" />
+    </tr>
+</table>
+
+</body>
+</html>
