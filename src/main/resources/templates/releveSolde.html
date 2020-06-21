@@ -26,14 +26,14 @@
                         <label for="categorie">Catégorie</label>
                         <select class="custom-select" id="categorie" th:field="*{instrumentCategory}">
                             <option value="" selected>Choisissez une catégorie...</option>
-                            <option th:each="instrumentCategory: ${instrumentCategories}" th:value="${instrumentCategory.categoryName}" th:text="${instrumentCategory.categoryName}"></option>
+                            <option th:each="instrumentCategory: ${instrumentCategories}" th:value="${instrumentCategory}" th:text="${instrumentCategory}"></option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="sousCategorie">Sous catégorie</label>
                         <select class="custom-select" id="sousCategorie" th:field="*{instrumentSousCategory}">
                             <option value="" selected>Choisissez une sous catégorie...</option>
-                            <option th:each="instrumentSousCategory: ${instrumentSousCategories}" th:value="${instrumentSousCategory.sousCategoryName}" th:text="${instrumentSousCategory.sousCategoryName}"></option>
+                            <option th:each="instrumentSousCategory: ${instrumentSousCategories}" th:value="${instrumentSousCategory}" th:text="${instrumentSousCategory}"></option>
                         </select>
                     </div>
                     <div class="col">

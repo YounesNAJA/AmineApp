@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
@@ -33,13 +34,13 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
     private InstrumentSousCategoryRepository instrumentSousCategoryRepository;
 
     @Override
-    public List<InstrumentCategory> findAllInstrumentCategories() {
-        return instrumentCategoryRepository.findAllInstrumentCategories();
+    public List<String> findAllInstrumentCategories() {
+        return instrumentCategoryRepository.findAllInstrumentCategories().stream().map(InstrumentCategory::getCategoryName).collect(Collectors.toList());
     }
 
     @Override
-    public List<InstrumentSousCategory> findAllInstrumentSousCategories() {
-        return instrumentSousCategoryRepository.findAllInstrumentSousCategories();
+    public List<String> findAllInstrumentSousCategories() {
+        return instrumentSousCategoryRepository.findAllInstrumentSousCategories().stream().map(InstrumentSousCategory::getSousCategoryName).collect(Collectors.toList());
     }
 
     @Override

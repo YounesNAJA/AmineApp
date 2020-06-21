@@ -10,6 +10,6 @@ import java.util.List;
 public interface ReleveDeSoldeService {
     List<ReleveDeSolde> findAllReleveDeSolde(ReleveSoldeFilter releveSoldeFilter);
     List<ReleveDeSolde> findAllReleveDeSoldeByMapping(ReleveSoldeFilter releveSoldeFilter);
-    List<InstrumentCategory> findAllInstrumentCategories();
-    List<InstrumentSousCategory> findAllInstrumentSousCategories();
+    List<String> findAllInstrumentCategories();
+    List<String> findAllInstrumentSousCategories();
 }
