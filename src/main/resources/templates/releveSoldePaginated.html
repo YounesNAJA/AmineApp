@@ -71,19 +71,26 @@
                 </tr>
                 </thead>
                 <tbody th:each="releveSolde: ${releveDeSoldes}">
-                <tr>
-                    <td th:text="${releveSolde.mandant}" />
-                    <td th:text="${releveSolde.libelleMandant}" />
-                    <td th:text="${releveSolde.mandataire}" />
-                    <td th:text="${releveSolde.libelleMandataire}" />
-                    <td th:text="${releveSolde.releveDeSoldeId.acno}" />
-                    <td th:text="${releveSolde.releveDeSoldeId.securityID}" />
-                    <td th:text="${releveSolde.engLongName}" />
-                    <td th:text="${releveSolde.instrCtgry}" />
-                    <td th:text="${releveSolde.normalQuantity}" />
-                </tr>
+                    <tr>
+                        <td th:text="${releveSolde.mandant}" />
+                        <td th:text="${releveSolde.libelleMandant}" />
+                        <td th:text="${releveSolde.mandataire}" />
+                        <td th:text="${releveSolde.libelleMandataire}" />
+                        <td th:text="${releveSolde.releveDeSoldeId.acno}" />
+                        <td th:text="${releveSolde.releveDeSoldeId.securityID}" />
+                        <td th:text="${releveSolde.engLongName}" />
+                        <td th:text="${releveSolde.instrCtgry}" />
+                        <td th:text="${releveSolde.normalQuantity}" />
+                    </tr>
                 </tbody>
             </table>
+
+            <div th:if="${releveSoldePage.totalPages > 0}" class="pagination"
+                 th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/listBooks(size=${releveSoldePage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==releveSoldePage.number + 1} ? active"></a>
+            </div>
         </div>
     </div>
 

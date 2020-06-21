@@ -1,13 +1,10 @@
 package com.amine.amineapp.model;
 
-import lombok.Data;
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 @Entity
-@Data
 public class ReleveDeSolde {
     @EmbeddedId
     private ReleveDeSoldeId releveDeSoldeId;
@@ -15,8 +12,8 @@ public class ReleveDeSolde {
     @Column(name = "MANDAT")
     private String mandant;
 
-    @Column(name = "LIBELLEMANDAT")
-    private String libelleMandat;
+    @Column(name = "LIBELLEMANDANT")
+    private String libelleMandant;
 
     @Column(name = "MANDATAIRE")
     private String mandataire;
@@ -47,14 +44,6 @@ public class ReleveDeSolde {
 
 	public void setMandant(String mandant) {
 		this.mandant = mandant;
-	}
-
-	public String getLibelleMandat() {
-		return libelleMandat;
-	}
-
-	public void setLibelleMandat(String libelleMandat) {
-		this.libelleMandat = libelleMandat;
 	}
 
 	public String getMandataire() {
@@ -97,5 +86,11 @@ public class ReleveDeSolde {
 		this.normalQuantity = normalQuantity;
 	}
 
+	public String getLibelleMandant() {
+		return libelleMandant;
+	}
 
+	public void setLibelleMandant(String libelleMandant) {
+		this.libelleMandant = libelleMandant;
+	}
 }
