@@ -15,6 +15,11 @@ public class ReleveDeSoldeId implements Serializable {
     @Column(name = "ACNO")
     private String acno;
 
+	public ReleveDeSoldeId(String securityID, String acno) {
+		this.securityID = securityID;
+		this.acno = acno;
+	}
+
 	public String getSecurityID() {
 		return securityID;
 	}
