@@ -3,6 +3,7 @@ package com.amine.amineapp.service.impl;
 import com.amine.amineapp.dao.repository.ReleveDeSoldeRepository;
 import com.amine.amineapp.dao.repository.StgBkpSecacRepository;
 import com.amine.amineapp.model.ReleveDeSolde;
+import com.amine.amineapp.model.ReleveSoldeMapper;
 import com.amine.amineapp.model.StgBkpSecac;
 import com.amine.amineapp.service.ReleveDeSoldeService;
 import com.amine.amineapp.service.StgBkpSecacService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +27,10 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
     @Override
     public List<ReleveDeSolde> findAllReleveDeSoldeOfSemestre(Date bookingDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return releveDeSoldeRepository.findAllReleveDeSoldeOfSemestre(simpleDateFormat.format(bookingDate));
+        List<ReleveDeSolde> list = new ArrayList();
+        for(Object[] o : releveDeSoldeRepository.findAllReleveDeSoldeOfSemestre(simpleDateFormat.format(bookingDate))) {
+        	list.add(ReleveSoldeMapper.map(o));
+        }
+        return list;
     }
 }

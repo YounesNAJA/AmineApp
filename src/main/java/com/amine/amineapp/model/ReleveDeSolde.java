@@ -33,5 +33,69 @@ public class ReleveDeSolde {
     @Column(name = "NORMALQUANTITY")
     private String normalQuantity;
 
+	public ReleveDeSoldeId getReleveDeSoldeId() {
+		return releveDeSoldeId;
+	}
+
+	public void setReleveDeSoldeId(ReleveDeSoldeId releveDeSoldeId) {
+		this.releveDeSoldeId = releveDeSoldeId;
+	}
+
+	public String getMandant() {
+		return mandant;
+	}
+
+	public void setMandant(String mandant) {
+		this.mandant = mandant;
+	}
+
+	public String getLibelleMandat() {
+		return libelleMandat;
+	}
+
+	public void setLibelleMandat(String libelleMandat) {
+		this.libelleMandat = libelleMandat;
+	}
+
+	public String getMandataire() {
+		return mandataire;
+	}
+
+	public void setMandataire(String mandataire) {
+		this.mandataire = mandataire;
+	}
+
+	public String getLibelleMandataire() {
+		return libelleMandataire;
+	}
+
+	public void setLibelleMandataire(String libelleMandataire) {
+		this.libelleMandataire = libelleMandataire;
+	}
+
+	public String getEngLongName() {
+		return engLongName;
+	}
+
+	public void setEngLongName(String engLongName) {
+		this.engLongName = engLongName;
+	}
+
+	public String getInstrCtgry() {
+		return instrCtgry;
+	}
+
+	public void setInstrCtgry(String instrCtgry) {
+		this.instrCtgry = instrCtgry;
+	}
+
+	public String getNormalQuantity() {
+		return normalQuantity;
+	}
+
+	public void setNormalQuantity(String normalQuantity) {
+		this.normalQuantity = normalQuantity;
+	}
+
 
 }
