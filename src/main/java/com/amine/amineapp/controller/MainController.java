@@ -63,13 +63,13 @@ public class MainController {
     }
 
     @GetMapping(value = "/releveSoldePaginated")
-    public String listBooks(
+    public String releveSoldePaginated(
             @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter,
             Model model,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
+        int pageSize = size.orElse(10);
 
         Page<ReleveDeSolde> releveSoldePage = releveDeSoldeService.findPaginatedReleveDeSolde(releveSoldeFilter, PageRequest.of(currentPage - 1, pageSize));
 

@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <form th:action="@{/releveSolde}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="post">
+            <form th:action="@{/releveSoldePaginated}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="get">
                 <div class="form-row">
                     <div class="col">
                         <label for="bookingDate">Date</label>
@@ -85,12 +85,15 @@
                 </tbody>
             </table>
 
-            <div th:if="${releveSoldePage.totalPages > 0}" class="pagination"
-                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/listBooks(size=${releveSoldePage.size}, page=${pageNumber})}"
-                   th:text="${pageNumber}"
-                   th:class="${pageNumber==releveSoldePage.number + 1} ? active"></a>
-            </div>
+            <nav aria-label="...">
+                <ul th:if="${releveSoldePage.totalPages > 0}"  class="pagination">
+                    <li th:each="pageNumber: ${pageNumbers}" class="page-item active">
+                        <a class="page-link sr-only" th:href="@{/releveSoldePaginated(size=${releveSoldePage.size}, page=${pageNumber})}"
+                           th:text="${pageNumber}"
+                           th:class="${pageNumber==releveSoldePage.number + 1} ? active"></a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 

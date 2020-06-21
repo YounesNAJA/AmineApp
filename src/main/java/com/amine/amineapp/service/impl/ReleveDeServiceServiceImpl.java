@@ -69,7 +69,8 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         return releveDeSoldeRepository.findAllReleveDeSolde(
-                (releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
+                //(releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
+                null,
                 isBlank(releveSoldeFilter.getInstrumentCategory()) ? null : releveSoldeFilter.getInstrumentCategory(),
                 isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
         );
