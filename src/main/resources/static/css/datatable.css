@@ -1,0 +1,14 @@
+body {
+    padding-top: 50px;
+    width: 100%;
+    margin: auto;
+}
+
+.rechercherBtn {
+    margin-top: 32px;
+}
+
+.dataTableFilterForm {
+    width: 100%;
+    margin: auto;
+}

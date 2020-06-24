@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Relevés de solde</title>
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.1.3/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="webjars/datatables/1.10.21/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/datatable.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/datatables/1.10.21/css/dataTables.bootstrap.min.css}"/>
 
     <script type="text/javascript" th:src="@{webjars/jquery/3.5.1/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <form th:action="@{/releveSolde}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="post">
+            <form th:action="@{/releveSolde}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="get">
                 <div class="form-row">
                     <div class="col">
                         <label for="bookingDate">Date</label>
@@ -70,20 +70,39 @@
                     <th>Normal Quantity</th>
                 </tr>
                 </thead>
-                <tbody th:each="releveSolde: ${releveDeSoldes}">
-                <tr>
-                    <td th:text="${releveSolde.mandant}" />
-                    <td th:text="${releveSolde.libelleMandant}" />
-                    <td th:text="${releveSolde.mandataire}" />
-                    <td th:text="${releveSolde.libelleMandataire}" />
-                    <td th:text="${releveSolde.releveDeSoldeId.acno}" />
-                    <td th:text="${releveSolde.releveDeSoldeId.securityID}" />
-                    <td th:text="${releveSolde.engLongName}" />
-                    <td th:text="${releveSolde.instrCtgry}" />
-                    <td th:text="${releveSolde.normalQuantity}" />
-                </tr>
+                <tbody th:each="releveSolde: ${releveSoldePaged}">
+                    <tr>
+                        <td th:text="${releveSolde.mandant}" />
+                        <td th:text="${releveSolde.libelleMandant}" />
+                        <td th:text="${releveSolde.mandataire}" />
+                        <td th:text="${releveSolde.libelleMandataire}" />
+                        <td th:text="${releveSolde.releveDeSoldeId.acno}" />
+                        <td th:text="${releveSolde.releveDeSoldeId.securityID}" />
+                        <td th:text="${releveSolde.engLongName}" />
+                        <td th:text="${releveSolde.instrCtgry}" />
+                        <td th:text="${releveSolde.normalQuantity}" />
+                    </tr>
                 </tbody>
             </table>
+
+            <nav aria-label="...">
+                <ul th:if="${releveSoldePaged.totalPages > 0}" class="pagination">
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    <li th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber==releveSoldePaged.number + 1} ? 'page-item active': 'page-item'" th:switch="${pageNumber}">
+                        <span th:case="${releveSoldePaged.number + 1}" class="page-link" th:text="${pageNumber}">
+                            <span class="sr-only">(current)</span>
+                        </span>
+
+                        <a th:case="*" class="page-link" th:href="@{/releveSolde(size=${releveSoldePaged.size}, page=${pageNumber}, releveSoldeFilter=${releveSoldeFilter})}"
+                           th:text="${pageNumber}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 

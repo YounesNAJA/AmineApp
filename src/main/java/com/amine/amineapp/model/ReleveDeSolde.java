@@ -9,7 +9,7 @@ public class ReleveDeSolde {
     @EmbeddedId
     private ReleveDeSoldeId releveDeSoldeId;
 
-    @Column(name = "MANDAT")
+    @Column(name = "MANDANT")
     private String mandant;
 
     @Column(name = "LIBELLEMANDANT")

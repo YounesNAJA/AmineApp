@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/")
+@SessionAttributes("releveSoldeFilter")
 public class MainController {
 
     @Autowired
@@ -40,49 +42,34 @@ public class MainController {
         return "stg";
     }
 
-    @PostMapping("/releveSolde")
-    public String releveSoldeFiltred(@ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter, Model model){
-        List<ReleveDeSolde> releveDeSoldes = releveDeSoldeService.findAllReleveDeSolde(releveSoldeFilter);
-        model.addAttribute("releveDeSoldes", releveDeSoldes);
-        model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
-        model.addAttribute("instrumentSousCategories", releveDeSoldeService.findAllInstrumentSousCategories());
-
-        return "releveSolde";
+    @ModelAttribute("releveSoldeFilter")
+    public ReleveSoldeFilter releveSoldeFilter() {
+        return new ReleveSoldeFilter();
     }
 
-    @GetMapping("/releveSolde")
-    public String releveSolde(Model model){
-
-        List<ReleveDeSolde> releveDeSoldes = releveDeSoldeService.findAllReleveDeSolde(new ReleveSoldeFilter());
-        model.addAttribute("releveSoldeFilter", new ReleveSoldeFilter());
-        model.addAttribute("releveDeSoldes", releveDeSoldes);
-        model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
-        model.addAttribute("instrumentSousCategories", releveDeSoldeService.findAllInstrumentSousCategories());
-
-        return "releveSolde";
-    }
-
-    @GetMapping(value = "/releveSoldePaginated")
-    public String releveSoldePaginated(
-            @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter,
-            Model model,
-            @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
+    @GetMapping(value = "/releveSolde")
+    public String releveSoldePaginated(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
-
-        Page<ReleveDeSolde> releveSoldePage = releveDeSoldeService.findPaginatedReleveDeSolde(releveSoldeFilter, PageRequest.of(currentPage - 1, pageSize));
-
-        model.addAttribute("releveSoldePage", releveSoldePage);
-
-        int totalPages = releveSoldePage.getTotalPages();
+        Page<ReleveDeSolde> releveSoldePaged = releveDeSoldeService.findPaginatedReleveDeSolde(getReleveDeSoldeFilterFromSession(releveSoldeFilter), PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("releveSoldePaged", releveSoldePaged);
+        model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
+        model.addAttribute("instrumentSousCategories", releveDeSoldeService.findAllInstrumentSousCategories());
+        int totalPages = releveSoldePaged.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        return "releveSolde";
+    }
 
-        return "releveSoldePaginated";
+    private ReleveSoldeFilter getReleveDeSoldeFilterFromSession(ReleveSoldeFilter releveSoldeFilter){
+        if (releveSoldeFilter != null) {
+            return releveSoldeFilter;
+        } else {
+            return new ReleveSoldeFilter();
+        }
     }
 }

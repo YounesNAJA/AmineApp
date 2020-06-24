@@ -3,11 +3,10 @@ package com.amine.amineapp.service.impl;
 import com.amine.amineapp.dao.repository.InstrumentCategoryRepository;
 import com.amine.amineapp.dao.repository.InstrumentSousCategoryRepository;
 import com.amine.amineapp.dao.repository.ReleveDeSoldeRepository;
+import com.amine.amineapp.model.ReleveDeSolde;
 import com.amine.amineapp.model.filter.InstrumentCategory;
 import com.amine.amineapp.model.filter.InstrumentSousCategory;
-import com.amine.amineapp.model.ReleveDeSolde;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
-import com.amine.amineapp.model.mapper.ReleveSoldeMapper;
 import com.amine.amineapp.service.ReleveDeSoldeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,22 +46,6 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
     public List<String> findAllInstrumentSousCategories() {
         return instrumentSousCategoryRepository.findAllInstrumentSousCategories().stream().map(InstrumentSousCategory::getSousCategoryName).collect(Collectors.toList());
     }
-
-//    @Override
-//    public List<ReleveDeSolde> findAllReleveDeSoldeByMapping(ReleveSoldeFilter releveSoldeFilter) {
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//
-//        List<ReleveDeSolde> releveDeSoldes = new ArrayList<>();
-//        for (Object[] object : releveDeSoldeRepository.findAllReleveDeSoldeObjects(
-//                (releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
-//                isBlank(releveSoldeFilter.getInstrumentCategory()) ? null : releveSoldeFilter.getInstrumentCategory(),
-//                isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
-//        )){
-//            releveDeSoldes.add(ReleveSoldeMapper.map(object));
-//        }
-//        return releveDeSoldes;
-//    }
 
     @Override
     public List<ReleveDeSolde> findAllReleveDeSolde(ReleveSoldeFilter releveSoldeFilter) {
