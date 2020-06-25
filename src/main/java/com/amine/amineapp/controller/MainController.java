@@ -50,9 +50,10 @@ public class MainController {
 
     @GetMapping(value = "/releveSolde")
     public String releveSoldePaginated(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) {
+        ReleveSoldeFilter releveSoldeFilterSesssion = getReleveDeSoldeFilterFromSession(releveSoldeFilter);
+        int pageSize = releveSoldeFilterSesssion.getNumberOfRows();
         int currentPage = page.orElse(1);
-        int pageSize = releveSoldeFilter.getNumberOfRows().orElse(10);
-        Page<ReleveDeSolde> releveSoldePaged = releveDeSoldeService.findPaginatedReleveDeSolde(getReleveDeSoldeFilterFromSession(releveSoldeFilter), PageRequest.of(currentPage - 1, pageSize));
+        Page<ReleveDeSolde> releveSoldePaged = releveDeSoldeService.findPaginatedReleveDeSolde(releveSoldeFilterSesssion, PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("releveSoldePaged", releveSoldePaged);
         model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
         model.addAttribute("instrumentSousCategories", releveDeSoldeService.findAllInstrumentSousCategories());
@@ -68,9 +69,10 @@ public class MainController {
 
     @GetMapping(value = "/releveSoldeDetaille")
     public String releveSoldeDetaillePaginated(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) {
+        ReleveSoldeFilter releveSoldeFilterSesssion = getReleveDeSoldeFilterFromSession(releveSoldeFilter);
+        int pageSize = releveSoldeFilterSesssion.getNumberOfRows();
         int currentPage = page.orElse(1);
-        int pageSize = releveSoldeFilter.getNumberOfRows().orElse(10);
-        Page<ReleveDeSoldeDetaille> releveSoldeDetaillePaged = releveDeSoldeService.findPaginatedReleveDeSoldeDetaille(getReleveDeSoldeFilterFromSession(releveSoldeFilter), PageRequest.of(currentPage - 1, pageSize));
+        Page<ReleveDeSoldeDetaille> releveSoldeDetaillePaged = releveDeSoldeService.findPaginatedReleveDeSoldeDetaille(releveSoldeFilterSesssion, PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("releveSoldePaged", releveSoldeDetaillePaged);
         model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
         model.addAttribute("instrumentSousCategories", releveDeSoldeService.findAllInstrumentSousCategories());
