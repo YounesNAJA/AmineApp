@@ -3,13 +3,14 @@ package com.amine.amineapp.model.filter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Optional;
 
 public class ReleveSoldeFilter {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date bookingDate;
     private String instrumentCategory;
     private String instrumentSousCategory;
-    private Integer numberOfRows;
+    private Optional<Integer> numberOfRows;
 
     public ReleveSoldeFilter() {
         this.bookingDate = new Date();
@@ -39,11 +40,11 @@ public class ReleveSoldeFilter {
         this.instrumentSousCategory = instrumentSousCategory;
     }
 
-    public Integer getNumberOfRows() {
+    public Optional<Integer> getNumberOfRows() {
         return numberOfRows;
     }
 
-    public void setNumberOfRows(Integer numberOfRows) {
+    public void setNumberOfRows(Optional<Integer> numberOfRows) {
         this.numberOfRows = numberOfRows;
     }
 }

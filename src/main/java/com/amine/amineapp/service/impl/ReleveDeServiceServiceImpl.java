@@ -2,8 +2,10 @@ package com.amine.amineapp.service.impl;
 
 import com.amine.amineapp.dao.repository.InstrumentCategoryRepository;
 import com.amine.amineapp.dao.repository.InstrumentSousCategoryRepository;
+import com.amine.amineapp.dao.repository.ReleveDeSoldeDetailleRepository;
 import com.amine.amineapp.dao.repository.ReleveDeSoldeRepository;
 import com.amine.amineapp.model.ReleveDeSolde;
+import com.amine.amineapp.model.ReleveDeSoldeDetaille;
 import com.amine.amineapp.model.filter.InstrumentCategory;
 import com.amine.amineapp.model.filter.InstrumentSousCategory;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
@@ -32,6 +34,9 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
     private ReleveDeSoldeRepository releveDeSoldeRepository;
 
     @Autowired
+    private ReleveDeSoldeDetailleRepository releveDeSoldeDetailleRepository;
+
+    @Autowired
     private InstrumentCategoryRepository instrumentCategoryRepository;
 
     @Autowired
@@ -47,7 +52,7 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
         return instrumentSousCategoryRepository.findAllInstrumentSousCategories().stream().map(InstrumentSousCategory::getSousCategoryName).collect(Collectors.toList());
     }
 
-    @Override
+/*    @Override
     public List<ReleveDeSolde> findAllReleveDeSolde(ReleveSoldeFilter releveSoldeFilter) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -57,13 +62,9 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
                 isBlank(releveSoldeFilter.getInstrumentCategory()) ? null : releveSoldeFilter.getInstrumentCategory(),
                 isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
         );
-    }
+    }*/
 
     public Page<ReleveDeSolde> findPaginatedReleveDeSolde(ReleveSoldeFilter releveSoldeFilter, Pageable pageable) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<ReleveDeSolde> releveDeSoldes = releveDeSoldeRepository.findAllReleveDeSolde(
                 (releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
@@ -71,7 +72,26 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
                 isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
         );
 
-        List<ReleveDeSolde> releveDeSoldesSubList = new ArrayList<>();
+        return getPagedData(releveDeSoldes, pageable);
+    }
+
+    public Page<ReleveDeSoldeDetaille> findPaginatedReleveDeSoldeDetaille(ReleveSoldeFilter releveSoldeFilter, Pageable pageable) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<ReleveDeSoldeDetaille> releveDeSoldesDetailles = releveDeSoldeDetailleRepository.findAllReleveDeSoldeDetaille(
+                (releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
+                isBlank(releveSoldeFilter.getInstrumentCategory()) ? null : releveSoldeFilter.getInstrumentCategory(),
+                isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
+        );
+
+        return getPagedData(releveDeSoldesDetailles, pageable);
+    }
+
+    private Page getPagedData(List releveDeSoldes, Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+
+        List releveDeSoldesSubList = new ArrayList<>();
 
         if (releveDeSoldes.size() < startItem) {
             releveDeSoldesSubList = Collections.emptyList();
@@ -80,10 +100,10 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
             releveDeSoldesSubList = releveDeSoldes.subList(startItem, toIndex);
         }
 
-        Page<ReleveDeSolde> bookPage
-                = new PageImpl<ReleveDeSolde>(releveDeSoldesSubList, PageRequest.of(currentPage, pageSize), releveDeSoldes.size());
+        Page releveDeSoldePage
+                = new PageImpl<>(releveDeSoldesSubList, PageRequest.of(currentPage, pageSize), releveDeSoldes.size());
 
-        return bookPage;
+        return releveDeSoldePage;
     }
 
     private boolean isBlank(String string) {

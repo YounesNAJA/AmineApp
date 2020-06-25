@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Relevés de solde détaillé</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/datatable.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/datatables/1.10.21/css/dataTables.bootstrap.min.css}"/>
+
+    <script type="text/javascript" th:src="@{webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/datatables/1.10.21/js/jquery.dataTables.min.js}"></script>
+    <script type="text/javascript" th:src="@{webjars/datatables/1.10.21/js/dataTables.bootstrap4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/datatableLoading.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <form th:action="@{/releveSoldeDetaille}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="get">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="bookingDate">Date</label>
+                        <input type="date" class="form-control" th:field="*{bookingDate}" id="bookingDate" placeholder="Choisissez une date">
+                    </div>
+                    <div class="col">
+                        <label for="categorie">Catégorie</label>
+                        <select class="custom-select" id="categorie" th:field="*{instrumentCategory}">
+                            <option value="" selected>Choisissez une catégorie...</option>
+                            <option th:each="instrumentCategory: ${instrumentCategories}" th:value="${instrumentCategory}" th:text="${instrumentCategory}"></option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="sousCategorie">Sous catégorie</label>
+                        <select class="custom-select" id="sousCategorie" th:field="*{instrumentSousCategory}">
+                            <option value="" selected>Choisissez une sous catégorie...</option>
+                            <option th:each="instrumentSousCategory: ${instrumentSousCategories}" th:value="${instrumentSousCategory}" th:text="${instrumentSousCategory}"></option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="entries">Entrées</label>
+                        <select class="custom-select" id="entries" th:field="*{numberOfRows}">
+                            <option value="" selected>Choisir un nombre d'entrées...</option>
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="1000">1000</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary mb-2 rechercherBtn">Rechercher</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Date de mise à jour</th>
+                    <th>Code mandataire</th>
+                    <th>Libellé Mandataire</th>
+                    <th>Code mandant</th>
+                    <th>Libellé mandant</th>
+                    <th>Numéro de compte</th>
+                    <th>Emetteur</th>
+                    <th>Agent</th>
+                    <th>Gestion</th>
+                    <th>Code valeur</th>
+                    <th>Libellé valeur</th>
+                    <th>Quantité</th>
+                    <th>Date ouverture</th>
+                    <th>Prix</th>
+                    <th>Capitalisation</th>
+                    <th>Sens</th>
+                    <th>Class</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody th:each="releveSoldeDetaille: ${releveSoldePaged}">
+                    <tr>
+                        <td th:text="${releveSoldeDetaille.dateMaj}" />
+                        <td th:text="${releveSoldeDetaille.codeMandataire}" />
+                        <td th:text="${releveSoldeDetaille.libelleMandataire}" />
+                        <td th:text="${releveSoldeDetaille.codeMandant}" />
+                        <td th:text="${releveSoldeDetaille.libelleMandant}" />
+                        <td th:text="${releveSoldeDetaille.releveDeSoldeDetailleId.numCompte}" />
+                        <td th:text="${releveSoldeDetaille.emetteur}" />
+                        <td th:text="${releveSoldeDetaille.agent}" />
+                        <td th:text="${releveSoldeDetaille.gestion}" />
+                        <td th:text="${releveSoldeDetaille.releveDeSoldeDetailleId.codeValeur}" />
+                        <td th:text="${releveSoldeDetaille.libelleValeur}" />
+                        <td th:text="${releveSoldeDetaille.quantite}" />
+                        <td th:text="${releveSoldeDetaille.dateOuverture}" />
+                        <td th:text="${releveSoldeDetaille.prix}" />
+                        <td th:text="${releveSoldeDetaille.capitalisation}" />
+                        <td th:text="${releveSoldeDetaille.sens}" />
+                        <td th:text="${releveSoldeDetaille.classID}" />
+                        <td th:text="${releveSoldeDetaille.type}" />
+                    </tr>
+                </tbody>
+            </table>
+
+            <nav aria-label="...">
+                <ul th:if="${releveSoldePaged.totalPages > 0}" class="pagination">
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    <li th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber==releveSoldePaged.number + 1} ? 'page-item active': 'page-item'" th:switch="${pageNumber}">
+                        <span th:case="${releveSoldePaged.number + 1}" class="page-link" th:text="${pageNumber}">
+                            <span class="sr-only">(current)</span>
+                        </span>
+
+                        <a th:case="*" class="page-link" th:href="@{/releveSolde(size=${releveSoldePaged.size}, page=${pageNumber}, releveSoldeFilter=${releveSoldeFilter})}"
+                           th:text="${pageNumber}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</body>
+</html>

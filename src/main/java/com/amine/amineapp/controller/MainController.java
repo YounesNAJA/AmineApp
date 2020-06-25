@@ -1,6 +1,7 @@
 package com.amine.amineapp.controller;
 
 import com.amine.amineapp.model.ReleveDeSolde;
+import com.amine.amineapp.model.ReleveDeSoldeDetaille;
 import com.amine.amineapp.model.StgBkpSecac;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
 import com.amine.amineapp.service.ReleveDeSoldeService;
@@ -48,9 +49,9 @@ public class MainController {
     }
 
     @GetMapping(value = "/releveSolde")
-    public String releveSoldePaginated(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) {
+    public String releveSoldePaginated(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(10);
+        int pageSize = releveSoldeFilter.getNumberOfRows().orElse(10);
         Page<ReleveDeSolde> releveSoldePaged = releveDeSoldeService.findPaginatedReleveDeSolde(getReleveDeSoldeFilterFromSession(releveSoldeFilter), PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("releveSoldePaged", releveSoldePaged);
         model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
@@ -63,6 +64,24 @@ public class MainController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
         return "releveSolde";
+    }
+
+    @GetMapping(value = "/releveSoldeDetaille")
+    public String releveSoldeDetaillePaginated(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) {
+        int currentPage = page.orElse(1);
+        int pageSize = releveSoldeFilter.getNumberOfRows().orElse(10);
+        Page<ReleveDeSoldeDetaille> releveSoldeDetaillePaged = releveDeSoldeService.findPaginatedReleveDeSoldeDetaille(getReleveDeSoldeFilterFromSession(releveSoldeFilter), PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("releveSoldePaged", releveSoldeDetaillePaged);
+        model.addAttribute("instrumentCategories", releveDeSoldeService.findAllInstrumentCategories());
+        model.addAttribute("instrumentSousCategories", releveDeSoldeService.findAllInstrumentSousCategories());
+        int totalPages = releveSoldeDetaillePaged.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return "releveSoldeDetaille";
     }
 
     private ReleveSoldeFilter getReleveDeSoldeFilterFromSession(ReleveSoldeFilter releveSoldeFilter){
