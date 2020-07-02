@@ -313,6 +313,25 @@ to get the desired effect
                   </tr>
                   </tbody>
                 </table>
+
+                <nav aria-label="...">
+                  <ul th:if="${capitalisationsPaged.totalPages > 0}" class="pagination">
+                    <li class="page-item" th:classappend="${capitalisationsPaged.number == 0} ? disabled" >
+                      <span class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${(capitalisationsPaged.number != 0)? capitalisationsPaged.number - 1:''}, releveSoldeFilter=${releveSoldeFilter})}">Previous</span>
+                    </li>
+                    <li th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber==capitalisationsPaged.number + 1} ? 'page-item active': 'page-item'" th:switch="${pageNumber}">
+                        <span th:case="${capitalisationsPaged.number + 1}" class="page-link" th:text="${pageNumber}">
+                            <span class="sr-only">(current)</span>
+                        </span>
+
+                      <a th:case="*" class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${pageNumber}, releveSoldeFilter=${releveSoldeFilter})}"
+                         th:text="${pageNumber}"></a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${capitalisationsPaged.number + 2}, releveSoldeFilter=${releveSoldeFilter})}">Next</a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
               <!-- /.card-body -->
             </div>
