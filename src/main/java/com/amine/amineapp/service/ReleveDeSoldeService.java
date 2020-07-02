@@ -1,5 +1,6 @@
 package com.amine.amineapp.service;
 
+import com.amine.amineapp.model.Capitalisation;
 import com.amine.amineapp.model.ReleveDeSolde;
 import com.amine.amineapp.model.ReleveDeSoldeDetaille;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
@@ -12,4 +13,5 @@ public interface ReleveDeSoldeService {
     List<String> findAllInstrumentSousCategories();
     Page<ReleveDeSolde> findPaginatedReleveDeSolde(ReleveSoldeFilter releveSoldeFilter, Pageable pageable);
     Page<ReleveDeSoldeDetaille> findPaginatedReleveDeSoldeDetaille(ReleveSoldeFilter releveSoldeFilter, Pageable pageable);
+    Page<Capitalisation> findPaginatedCapitalisation(ReleveSoldeFilter releveSoldeFilter, Pageable pageable);
 }

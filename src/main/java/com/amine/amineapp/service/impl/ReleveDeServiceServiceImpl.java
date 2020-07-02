@@ -1,9 +1,7 @@
 package com.amine.amineapp.service.impl;
 
-import com.amine.amineapp.dao.repository.InstrumentCategoryRepository;
-import com.amine.amineapp.dao.repository.InstrumentSousCategoryRepository;
-import com.amine.amineapp.dao.repository.ReleveDeSoldeDetailleRepository;
-import com.amine.amineapp.dao.repository.ReleveDeSoldeRepository;
+import com.amine.amineapp.dao.repository.*;
+import com.amine.amineapp.model.Capitalisation;
 import com.amine.amineapp.model.ReleveDeSolde;
 import com.amine.amineapp.model.ReleveDeSoldeDetaille;
 import com.amine.amineapp.model.filter.InstrumentCategory;
@@ -42,6 +40,10 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
     @Autowired
     private InstrumentSousCategoryRepository instrumentSousCategoryRepository;
 
+    @Autowired
+    private CapitalisationRepository capitalisationRepository;
+
+
     @Override
     public List<String> findAllInstrumentCategories() {
         return instrumentCategoryRepository.findAllInstrumentCategories().stream().map(InstrumentCategory::getCategoryName).collect(Collectors.toList());
@@ -63,6 +65,16 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
                 isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
         );
     }*/
+
+    public Page<Capitalisation> findPaginatedCapitalisation(ReleveSoldeFilter releveSoldeFilter, Pageable pageable) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Capitalisation> capitalisations = capitalisationRepository.findAllCapitalisations(
+                (releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
+                isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
+        );
+
+        return getPagedData(capitalisations, pageable);
+    }
 
     public Page<ReleveDeSolde> findPaginatedReleveDeSolde(ReleveSoldeFilter releveSoldeFilter, Pageable pageable) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -86,22 +98,22 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
         return getPagedData(releveDeSoldesDetailles, pageable);
     }
 
-    private Page getPagedData(List releveDeSoldes, Pageable pageable) {
+    private Page getPagedData(List listOfElements, Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
 
-        List releveDeSoldesSubList = new ArrayList<>();
+        List elementsSubList = new ArrayList<>();
 
-        if (releveDeSoldes.size() < startItem) {
-            releveDeSoldesSubList = Collections.emptyList();
+        if (listOfElements.size() < startItem) {
+            elementsSubList = Collections.emptyList();
         } else {
-            int toIndex = Math.min(startItem + pageSize, releveDeSoldes.size());
-            releveDeSoldesSubList = releveDeSoldes.subList(startItem, toIndex);
+            int toIndex = Math.min(startItem + pageSize, listOfElements.size());
+            elementsSubList = listOfElements.subList(startItem, toIndex);
         }
 
         Page releveDeSoldePage
-                = new PageImpl<>(releveDeSoldesSubList, PageRequest.of(currentPage, pageSize), releveDeSoldes.size());
+                = new PageImpl<>(elementsSubList, PageRequest.of(currentPage, pageSize), listOfElements.size());
 
         return releveDeSoldePage;
     }
