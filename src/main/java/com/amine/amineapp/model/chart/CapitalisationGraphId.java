@@ -1,4 +1,4 @@
-package com.amine.amineapp.model;
+package com.amine.amineapp.model.chart;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class CapitalisationGraphId implements Serializable {
     @Column(name = "CATEGORIE")
     private String categorie;
+
     @Column(name = "ANNEE")
     private Integer annee;
 

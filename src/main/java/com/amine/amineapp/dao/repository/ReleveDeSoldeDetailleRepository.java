@@ -1,10 +1,7 @@
 package com.amine.amineapp.dao.repository;
 
-import com.amine.amineapp.model.ReleveDeSolde;
 import com.amine.amineapp.model.ReleveDeSoldeDetaille;
-import com.amine.amineapp.model.ReleveDeSoldeDetailleId;
-import com.amine.amineapp.model.ReleveDeSoldeId;
-import org.springframework.data.domain.Pageable;
+import com.amine.amineapp.model.embedded.ReleveDeSoldeDetailleId;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

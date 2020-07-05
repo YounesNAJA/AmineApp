@@ -1,9 +1,11 @@
 package com.amine.amineapp.service.impl;
 
 import com.amine.amineapp.dao.repository.*;
-import com.amine.amineapp.model.Capitalisation;
-import com.amine.amineapp.model.ReleveDeSolde;
-import com.amine.amineapp.model.ReleveDeSoldeDetaille;
+import com.amine.amineapp.model.*;
+import com.amine.amineapp.model.chart.CapitalisationGraph;
+import com.amine.amineapp.model.chart.Graph;
+import com.amine.amineapp.model.chart.GraphSerie;
+import com.amine.amineapp.model.filter.GraphFilter;
 import com.amine.amineapp.model.filter.InstrumentCategory;
 import com.amine.amineapp.model.filter.InstrumentSousCategory;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
@@ -18,10 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,18 +52,6 @@ public class ReleveDeServiceServiceImpl implements ReleveDeSoldeService {
     public List<String> findAllInstrumentSousCategories() {
         return instrumentSousCategoryRepository.findAllInstrumentSousCategories().stream().map(InstrumentSousCategory::getSousCategoryName).collect(Collectors.toList());
     }
-
-/*    @Override
-    public List<ReleveDeSolde> findAllReleveDeSolde(ReleveSoldeFilter releveSoldeFilter) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        return releveDeSoldeRepository.findAllReleveDeSolde(
-                //(releveSoldeFilter.getBookingDate() != null)? simpleDateFormat.format(releveSoldeFilter.getBookingDate()) : simpleDateFormat.format(new Date()),
-                null,
-                isBlank(releveSoldeFilter.getInstrumentCategory()) ? null : releveSoldeFilter.getInstrumentCategory(),
-                isBlank(releveSoldeFilter.getInstrumentSousCategory()) ? null : releveSoldeFilter.getInstrumentSousCategory()
-        );
-    }*/
 
     public Page<Capitalisation> findPaginatedCapitalisation(ReleveSoldeFilter releveSoldeFilter, Pageable pageable) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

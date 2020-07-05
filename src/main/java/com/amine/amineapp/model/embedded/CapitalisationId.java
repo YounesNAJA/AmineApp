@@ -1,4 +1,4 @@
-package com.amine.amineapp.model;
+package com.amine.amineapp.model.embedded;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

@@ -22,6 +22,8 @@
   <link rel="stylesheet" type="text/css" th:href="@{../webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
   <link rel="stylesheet" type="text/css" th:href="@{../webjars/datatables/1.10.21/css/dataTables.bootstrap.min.css}"/>
 
+  <link rel="stylesheet" type="text/css" th:href="@{/css/graph/graph.css}"/>
+
   <script type="text/javascript" th:src="@{../webjars/jquery/3.5.1/jquery.min.js}"></script>
   <script type="text/javascript" th:src="@{../webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
   <script type="text/javascript" th:src="@{../webjars/datatables/1.10.21/js/jquery.dataTables.min.js}"></script>
@@ -57,9 +59,9 @@ to get the desired effect
       <li class="nav-item d-none d-sm-inline-block">
         <a href="index3.html" class="nav-link">Home</a>
       </li>
-     
+
     </ul>
-    
+
   </nav>
   <!-- /.navbar -->
 
@@ -174,196 +176,209 @@ to get the desired effect
             </div>
             <!-- /.card -->
 
-                     <!-- /.card -->
+            <!-- /.card -->
           </div>
           <!-- /.col-md-6 -->
           <div class="col-6">
             <div class="card">
-             <div class="card-header border-0">
+              <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Evolution de capitalisation Annuele</h3>
                 </div>
               </div>
+              <div class="container">
+                <div class="row">
+                  <form id="capiAnnuelleForm" th:object="${graphFilter}">
+                    <div class="form-row">
+                      <div class="col">
+                        <label for="startDate">Du</label>
+                        <input type="date" class="form-control" th:field="*{startDate}" id="startDate" placeholder="Choisissez une date">
+                      </div>
+                      <div class="col">
+                        <label for="endDate">Au</label>
+                        <input type="date" class="form-control" th:field="*{endDate}" id="endDate" placeholder="Choisissez une date">
+                      </div>
+                      <div class="col">
+                        <button type="submit" class="btn btn-primary mb-2 rechercherBtn">Rechercher</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
               <div class="card-body">
-                
+
                 <!-- /.d-flex -->
 
-                <div class="position-relative mb-4">
-                  <canvas id="sales-chart" height="200"></canvas>
-                </div>
+                <!--<div class="position-relative mb-4">-->
+                <!--<canvas id="sales-chart" height="200"></canvas>-->
+                <!--</div>-->
 
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> Cette année
-                  </span>
+                <div id="capitalisationAnnuelle">
 
-                  <span>
-                    <i class="fas fa-square text-gray"></i> Dernier année
-                  </span>
                 </div>
               </div>
             </div>
-           </div>
+          </div>
           <!-- /.col-md-6 -->
-            <!-- /.card -->
-           
-           <!--pie-->
-           <div class="col-6">
+          <!-- /.card -->
+
+          <!--pie-->
+          <div class="col-6">
             <div class="card">
-             <div class="card-header border-0">
+              <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Catégorie en volume </h3>
                 </div>
               </div>
               <div class="card-body">
-                
+
                 <figure class="highcharts-figure">
                   <div id="containervaleur"></div>
                 </figure>
 
               </div>
             </div>
-           </div>
-           <div class="col-lg-6">
+          </div>
+          <div class="col-lg-6">
             <div class="card">
-             <div class="card-header border-0">
+              <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Catégorie en valeur </h3>
                 </div>
               </div>
               <div class="card-body">
-                
+
                 <figure class="highcharts-figure">
-               <div id="container"></div>
-  
-              </figure>
+                  <div id="container"></div>
+
+                </figure>
 
               </div>
             </div>
-           </div>
-          <!-- /.col-md-6 -->
-            <!-- /.card -->
-           </div>
           </div>
-           <!--fin pie-->
-    <!-- /.content -->
-             <section class="content">
-                <div class="container-fluid">
-                  <div class="row">
-                    <div class="col-12">
-                       <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Relevé de soldes</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-
-                <div class="container">
-                  <div class="row">
-                    <form th:action="@{/dashboard/releve-solde}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="get">
-                      <div class="form-row">
-                        <div class="col">
-                          <label for="bookingDate">Date</label>
-                          <input type="date" class="form-control" th:field="*{bookingDate}" id="bookingDate" placeholder="Choisissez une date">
-                        </div>
-                        <div class="col">
-                          <label for="categorie">Catégorie</label>
-                          <select class="custom-select" id="categorie" th:field="*{instrumentSousCategory}">
-                            <option value="" selected>Choisissez une sous catégorie...</option>
-                            <option th:each="instrumentSousCategory: ${instrumentSousCategories}" th:value="${instrumentSousCategory}" th:text="${instrumentSousCategory}"></option>
-                          </select>
-                        </div>
-                        <div class="col">
-                          <label for="entries">Entrées</label>
-                          <select class="custom-select" id="entries" th:field="*{numberOfRows}">
-                            <option value="" selected>Choisir un nombre d'entrées...</option>
-                            <option value="10">10</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="1000">1000</option>
-                          </select>
-                        </div>
-                        <div class="col">
-                          <button type="submit" class="btn btn-primary mb-2 rechercherBtn">Rechercher</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+          <!-- /.col-md-6 -->
+          <!-- /.card -->
+        </div>
+      </div>
+      <!--fin pie-->
+      <!-- /.content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Relevé de soldes</h3>
                 </div>
+                <!-- /.card-header -->
+                <div class="card-body">
 
-                <table id="datatable" class="table table-striped table-bordered">
-                  <thead>
-                  <tr>
-                    <th>Numéro de compte</th>
-                    <th>Instrument</th>
-                    <th>Libellé instrument</th>
-                    <th>Catégorie</th>
-                    <th>Quantité d'avoirs</th>
-                    <th>Capi.</th>
-                  </tr>
-                  </thead>
-                  <tbody th:each="capitalisation: ${capitalisationsPaged}">
-                  <tr>
-                    <td th:text="${capitalisation.capitalisationId.numeroCompte}" />
-                    <td th:text="${capitalisation.capitalisationId.instrument}" />
-                    <td th:text="${capitalisation.libelleInstrument}" />
-                    <td th:text="${capitalisation.categorie}" />
-                    <td th:text="${capitalisation.quantiteAvoirs}" />
-                    <td th:text="${capitalisation.capi}" />
-                  </tr>
-                  </tbody>
-                </table>
+                  <div class="container">
+                    <div class="row">
+                      <form th:action="@{/dashboard/releve-solde}" class="dataTableFilterForm" th:object="${releveSoldeFilter}" METHOD="get">
+                        <div class="form-row">
+                          <div class="col">
+                            <label for="bookingDate">Date</label>
+                            <input type="date" class="form-control" th:field="*{bookingDate}" id="bookingDate" placeholder="Choisissez une date">
+                          </div>
+                          <div class="col">
+                            <label for="categorie">Catégorie</label>
+                            <select class="custom-select" id="categorie" th:field="*{instrumentSousCategory}">
+                              <option value="" selected>Choisissez une sous catégorie...</option>
+                              <option th:each="instrumentSousCategory: ${instrumentSousCategories}" th:value="${instrumentSousCategory}" th:text="${instrumentSousCategory}"></option>
+                            </select>
+                          </div>
+                          <div class="col">
+                            <label for="entries">Entrées</label>
+                            <select class="custom-select" id="entries" th:field="*{numberOfRows}">
+                              <option value="" selected>Choisir un nombre d'entrées...</option>
+                              <option value="10">10</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                              <option value="1000">1000</option>
+                            </select>
+                          </div>
+                          <div class="col">
+                            <button type="submit" class="btn btn-primary mb-2 rechercherBtn">Rechercher</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
 
-                <nav aria-label="...">
-                  <ul th:if="${capitalisationsPaged.totalPages > 0}" class="pagination">
-                    <li class="page-item" th:classappend="${capitalisationsPaged.number == 0} ? disabled" >
-                      <span class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${(capitalisationsPaged.number != 0)? capitalisationsPaged.number - 1:''}, releveSoldeFilter=${releveSoldeFilter})}">Previous</span>
-                    </li>
-                    <li th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber==capitalisationsPaged.number + 1} ? 'page-item active': 'page-item'" th:switch="${pageNumber}">
+                  <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                      <th>Numéro de compte</th>
+                      <th>Instrument</th>
+                      <th>Libellé instrument</th>
+                      <th>Catégorie</th>
+                      <th>Quantité d'avoirs</th>
+                      <th>Capi.</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="capitalisation: ${capitalisationsPaged}">
+                    <tr>
+                      <td th:text="${capitalisation.capitalisationId.numeroCompte}" />
+                      <td th:text="${capitalisation.capitalisationId.instrument}" />
+                      <td th:text="${capitalisation.libelleInstrument}" />
+                      <td th:text="${capitalisation.categorie}" />
+                      <td th:text="${capitalisation.quantiteAvoirs}" />
+                      <td th:text="${capitalisation.capi}" />
+                    </tr>
+                    </tbody>
+                  </table>
+
+                  <nav aria-label="...">
+                    <ul th:if="${capitalisationsPaged.totalPages > 0}" class="pagination">
+                      <li class="page-item" th:classappend="${capitalisationsPaged.number == 0} ? disabled" >
+                        <span class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${(capitalisationsPaged.number != 0)? capitalisationsPaged.number - 1:''}, releveSoldeFilter=${releveSoldeFilter})}">Previous</span>
+                      </li>
+                      <li th:each="pageNumber: ${pageNumbers}" th:class="${pageNumber==capitalisationsPaged.number + 1} ? 'page-item active': 'page-item'" th:switch="${pageNumber}">
                         <span th:case="${capitalisationsPaged.number + 1}" class="page-link" th:text="${pageNumber}">
                             <span class="sr-only">(current)</span>
                         </span>
 
-                      <a th:case="*" class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${pageNumber}, releveSoldeFilter=${releveSoldeFilter})}"
-                         th:text="${pageNumber}"></a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${capitalisationsPaged.number + 2}, releveSoldeFilter=${releveSoldeFilter})}">Next</a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <!-- /.card-body -->
-            </div>
-                    </div>
-                  </div>
+                        <a th:case="*" class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${pageNumber}, releveSoldeFilter=${releveSoldeFilter})}"
+                           th:text="${pageNumber}"></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" th:href="@{/dashboard/releve-solde(size=${capitalisationsPaged.size}, page=${capitalisationsPaged.number + 2}, releveSoldeFilter=${releveSoldeFilter})}">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
                 </div>
-          <!-- /.container-fluid -->
-            </section>
-            
-         
+                <!-- /.card-body -->
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-   
-  </div>
-  <!-- /.content-wrapper -->
+        <!-- /.container-fluid -->
+      </section>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.5
     </div>
-  </footer>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+
+<!-- Main Footer -->
+<footer class="main-footer">
+  <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+  All rights reserved.
+  <div class="float-right d-none d-sm-inline-block">
+    <b>Version</b> 3.0.5
+  </div>
+</footer>
 </div>
 <!-- ./wrapper -->
 
@@ -376,136 +391,79 @@ to get the desired effect
 
 
 <script>
- $(function () {
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
     });
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
 </script>
 <script type="text/javascript">
-  // Build the chart
-Highcharts.chart('container', {
-    chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-    },
-    title: {
-        text: 'Catégorie en % volume'
-    },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
-    accessibility: {
-        point: {
-            valueSuffix: '%'
-        }
-    },
-    plotOptions: {
-        pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: false
-            },
-            showInLegend: true
-        }
-    },
-    series: [{
-        name: 'Brands',
-        colorByPoint: true,
-        data: [{
-            name: 'Actions',
-            y: 61.41,
-            sliced: true,
-            selected: true
-        }, {
-            name: 'Bon de trésors',
-            y: 11.84
-        }, {
-            name: 'Obligations',
-            y: 10.85
-        }, {
-            name: 'OPCI et OPCC',
-            y: 4.67
-        }, {
-            name: 'OPCVM',
-            y: 4.18
-        }, {
-            name: 'FPCT',
-            y: 7.05
+    // Build the chart
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Catégorie en % volume'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'Actions',
+                y: 61.41,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Bon de trésors',
+                y: 11.84
+            }, {
+                name: 'Obligations',
+                y: 10.85
+            }, {
+                name: 'OPCI et OPCC',
+                y: 4.67
+            }, {
+                name: 'OPCVM',
+                y: 4.18
+            }, {
+                name: 'FPCT',
+                y: 7.05
+            }]
         }]
-    }]
-});
+    });
 </script>
-<script type="text/javascript">
-  // Build the chart
-Highcharts.chart('containervaleur', {
-    chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-    },
-    title: {
-        text: 'Catégorie en % valeur'
-    },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
-    accessibility: {
-        point: {
-            valueSuffix: '%'
-        }
-    },
-    plotOptions: {
-        pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: false
-            },
-            showInLegend: true
-        }
-    },
-    series: [{
-        name: 'Brands',
-        colorByPoint: true,
-        data: [{
-            name: 'Actions',
-            y: 61.41,
-            sliced: true,
-            selected: true
-        }, {
-            name: 'Bon de trésors',
-            y: 11.84
-        }, {
-            name: 'Obligations',
-            y: 10.85
-        }, {
-            name: 'OPCI et OPCC',
-            y: 4.67
-        }, {
-            name: 'OPCVM',
-            y: 4.18
-        }, {
-            name: 'FPCT',
-            y: 7.05
-        }]
-    }]
-});
-</script>
-
+<script type="text/javascript" th:src="@{/js/graphs/graph.js}"></script>
 </body>
 </html>

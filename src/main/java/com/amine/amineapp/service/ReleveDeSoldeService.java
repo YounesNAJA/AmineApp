@@ -1,8 +1,11 @@
 package com.amine.amineapp.service;
 
 import com.amine.amineapp.model.Capitalisation;
+import com.amine.amineapp.model.chart.CapitalisationGraph;
 import com.amine.amineapp.model.ReleveDeSolde;
 import com.amine.amineapp.model.ReleveDeSoldeDetaille;
+import com.amine.amineapp.model.chart.Graph;
+import com.amine.amineapp.model.filter.GraphFilter;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

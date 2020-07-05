@@ -2,6 +2,7 @@ package com.amine.amineapp.controller;
 
 import com.amine.amineapp.model.Capitalisation;
 import com.amine.amineapp.model.ReleveDeSoldeDetaille;
+import com.amine.amineapp.model.filter.GraphFilter;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
 import com.amine.amineapp.service.ReleveDeSoldeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,7 +29,9 @@ public class DashboardController {
     private ReleveDeSoldeService releveDeSoldeService;
 
     @GetMapping("/releve-solde")
-    public String dashboard(Model model, @RequestParam("page") Optional<Integer> page, @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter){
+    public String dashboard(Model model,
+                            @RequestParam("page") Optional<Integer> page,
+                            @ModelAttribute("releveSoldeFilter") ReleveSoldeFilter releveSoldeFilter) throws ParseException {
         ReleveSoldeFilter releveSoldeFilterSesssion = getReleveDeSoldeFilterFromSession(releveSoldeFilter);
         int pageSize = releveSoldeFilterSesssion.getNumberOfRows();
         int currentPage = page.orElse(1);
@@ -46,6 +52,11 @@ public class DashboardController {
     @ModelAttribute("releveSoldeFilter")
     public ReleveSoldeFilter releveSoldeFilter() {
         return new ReleveSoldeFilter();
+    }
+
+    @ModelAttribute("graphFilter")
+    public GraphFilter graphFilter() {
+        return new GraphFilter();
     }
 
     private ReleveSoldeFilter getReleveDeSoldeFilterFromSession(ReleveSoldeFilter releveSoldeFilter){

@@ -1,5 +1,7 @@
 package com.amine.amineapp.model;
 
+import com.amine.amineapp.model.embedded.CapitalisationId;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

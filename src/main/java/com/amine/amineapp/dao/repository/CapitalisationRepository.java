@@ -1,7 +1,7 @@
 package com.amine.amineapp.dao.repository;
 
 import com.amine.amineapp.model.Capitalisation;
-import com.amine.amineapp.model.CapitalisationId;
+import com.amine.amineapp.model.embedded.CapitalisationId;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

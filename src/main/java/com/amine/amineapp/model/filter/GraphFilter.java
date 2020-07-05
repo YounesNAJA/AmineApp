@@ -1,7 +1,9 @@
-package com.amine.amineapp.model;
+package com.amine.amineapp.model.filter;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class GraphFilter {
@@ -10,6 +12,16 @@ public class GraphFilter {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
+    public GraphFilter(Date startDate, Date endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public GraphFilter() {
+        endDate = new Date();
+        startDate = Timestamp.valueOf(LocalDateTime.now().minusYears(2));
+    }
 
     public Date getStartDate() {
         return startDate;
@@ -25,5 +37,9 @@ public class GraphFilter {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean isEmpty() {
+        return startDate == null && endDate == null;
     }
 }
