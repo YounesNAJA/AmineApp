@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,16 +43,32 @@ public class GraphServiceImpl implements GraphService {
 
         graph.setGraphSeries(new HashSet<>());
 
+        Map<String, HashMap<Integer, Double>> data = new HashMap<>();
+        for (String categorie: graph.getxAxisCategories()) {
+            HashMap<Integer, Double> categorieData = new HashMap<>();
+            for (Integer serie: series) {
+                Double capi = capitalisationGraphs.stream()
+                        .filter(capitalisationGraph -> capitalisationGraph.getCapitalisationGraphId().getCategorie().equals(categorie)
+                                && capitalisationGraph.getCapitalisationGraphId().getAnnee().equals(serie))
+                        .map(capitalisationGraph -> capitalisationGraph.getCapi() == null ? 0.0 : capitalisationGraph.getCapi())
+                        .findFirst()
+                        .orElse(0.0);
+
+                categorieData.put(serie, capi);
+            }
+
+            data.put(categorie, categorieData);
+        }
+
         for (Integer serie: series) {
             GraphSerie graphSerie = new GraphSerie();
             graphSerie.setName(serie.toString());
-            graphSerie.setData(capitalisationGraphs.stream().filter(capitalisationGraph -> capitalisationGraph.getCapitalisationGraphId().getAnnee().equals(serie))
-                    .map(capitalisationGraph -> capitalisationGraph.getCapi())
+            graphSerie.setData(data.entrySet().stream()
+                    .map(categorieData -> categorieData.getValue().get(serie))
                     .collect(Collectors.toList()));
             graph.getGraphSeries().add(graphSerie);
         }
 
         return graph;
     }
-
 }

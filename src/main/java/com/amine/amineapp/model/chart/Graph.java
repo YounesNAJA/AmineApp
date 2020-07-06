@@ -1,6 +1,5 @@
 package com.amine.amineapp.model.chart;
 
-import java.util.List;
 import java.util.Set;
 
 public class Graph {
