@@ -18,21 +18,28 @@ public class GraphServiceImpl implements GraphService {
     @Autowired
     private GraphRepository graphRepository;
 
-    private List<CapitalisationGraph> getCapitalisationAnnuelleGraphData(GraphFilter graphFilter){
+    public Graph getCapitalisationAnnuelleGraphData(GraphFilter graphFilter){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        return graphRepository.findCapitalisationAnnuelle(
-            (graphFilter.getStartDate() != null)? simpleDateFormat.format(graphFilter.getStartDate()) : simpleDateFormat.format(new Date()),
-            (graphFilter.getEndDate() != null)? simpleDateFormat.format(graphFilter.getEndDate()) : simpleDateFormat.format(new Date())
-        );
+        return getGraphData(graphRepository.findCapitalisationAnnuelle(
+                (graphFilter.getStartDate() != null)? simpleDateFormat.format(graphFilter.getStartDate()) : simpleDateFormat.format(new Date()),
+                (graphFilter.getEndDate() != null)? simpleDateFormat.format(graphFilter.getEndDate()) : simpleDateFormat.format(new Date())
+        ), "Capitalisation annuelle", "Capitalisation");
     }
 
-    public Graph getGraphData(GraphFilter graphFilter){
-        List<CapitalisationGraph> capitalisationGraphs = getCapitalisationAnnuelleGraphData(graphFilter);
+    public Graph getCapitalisationMensuelleGraphData(GraphFilter graphFilter){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+        return getGraphData(graphRepository.findCapitalisationMensuelle(
+                (graphFilter.getStartDate() != null)? simpleDateFormat.format(graphFilter.getStartDate()) : simpleDateFormat.format(new Date()),
+                (graphFilter.getEndDate() != null)? simpleDateFormat.format(graphFilter.getEndDate()) : simpleDateFormat.format(new Date())
+        ), "Capitalisation mensuelle", "Capitalisation");
+    }
+
+    private Graph getGraphData(List<CapitalisationGraph> capitalisationGraphs, String graphTitle, String yAxisTitle){
         Graph graph = new Graph();
-        graph.setGraphTitle("Capitalisation annuelle");
-        graph.setyAxisTitle("Capitalisation");
+        graph.setGraphTitle(graphTitle);
+        graph.setyAxisTitle(yAxisTitle);
         graph.setxAxisCategories(capitalisationGraphs.stream()
                 .map(capitalisationGraph -> capitalisationGraph.getCapitalisationGraphId().getCategorie())
                 .collect(Collectors.toSet()));

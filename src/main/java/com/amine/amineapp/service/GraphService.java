@@ -3,6 +3,10 @@ package com.amine.amineapp.service;
 import com.amine.amineapp.model.chart.Graph;
 import com.amine.amineapp.model.filter.GraphFilter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public interface GraphService {
-    Graph getGraphData(GraphFilter graphFilter);
+    Graph getCapitalisationAnnuelleGraphData(GraphFilter graphFilter);
+    Graph getCapitalisationMensuelleGraphData(GraphFilter graphFilter);
 }

@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface InstrumentSousCategoryRepository extends CrudRepository<InstrumentSousCategory, String> {
 
-    @Query(value ="SELECT DISTINCT INSTRCTGRY FROM stg_fim_prmydtls", nativeQuery = true)
+    @Query(value = Queries.INSTRUMENT_SOUS_CATEGORIES, nativeQuery = true)
     List<InstrumentSousCategory> findAllInstrumentSousCategories();
 }

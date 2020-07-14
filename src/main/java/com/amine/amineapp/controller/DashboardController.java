@@ -1,7 +1,6 @@
 package com.amine.amineapp.controller;
 
 import com.amine.amineapp.model.Capitalisation;
-import com.amine.amineapp.model.ReleveDeSoldeDetaille;
 import com.amine.amineapp.model.filter.GraphFilter;
 import com.amine.amineapp.model.filter.ReleveSoldeFilter;
 import com.amine.amineapp.service.ReleveDeSoldeService;
@@ -13,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

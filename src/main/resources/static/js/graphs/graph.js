@@ -1,5 +1,5 @@
-var drawCapAnnuelle = function(graphTitle, yAxisTitle, xAxisCategories, series) {
-    Highcharts.chart('capitalisationAnnuelle', {
+var drawCapitalisationGraph = function(typeCapitalisation, graphTitle, yAxisTitle, xAxisCategories, series) {
+    Highcharts.chart(typeCapitalisation, {
         chart: {
             type: 'column',
         },
@@ -17,6 +17,8 @@ var drawCapAnnuelle = function(graphTitle, yAxisTitle, xAxisCategories, series) 
         series: series
 
     });
+
+    $(".highcharts-credits").hide();
 }
 
 $("#capiAnnuelleForm").submit(function(e){
@@ -25,21 +27,27 @@ $("#capiAnnuelleForm").submit(function(e){
         endDate: $("#endDate").val()
     })
         .done(function(data) {
-            console.log("Data Loaded: ");
-            console.log(data);
-            // window.graphData = data;
-            drawCapAnnuelle(data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);
+            drawCapitalisationGraph('capitalisationAnnuelle', data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);
+        });
+    e.preventDefault();
+});
+
+$("#capiMensuelleForm").submit(function(e){
+    $.get("graph/cap-mensuelle", {
+        startDate: $("#startDateM").val(),
+        endDate: $("#endDateM").val()
+    })
+        .done(function(data) {
+            drawCapitalisationGraph('capitalisationMensuelle', data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);
         });
     e.preventDefault();
 });
 
 $("#capiAnnuelleForm").submit();
+$("#capiMensuelleForm").submit();
 
 
-
-// Build the chart
-
-
+// TODO à supprimer après
 Highcharts.chart('containervaleur', {
     chart: {
         plotBackgroundColor: null,

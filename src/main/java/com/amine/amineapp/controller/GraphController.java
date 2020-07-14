@@ -6,8 +6,6 @@ import com.amine.amineapp.service.GraphService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-
 @RestController
 @RequestMapping("/dashboard/graph")
 @SessionAttributes("graphFilter")
@@ -25,13 +23,19 @@ public class GraphController {
         if (!graphFilter.isEmpty()) {
             return graphFilter;
         } else {
-            return new GraphFilter();
+            return graphFilter();
         }
     }
 
     @GetMapping("/cap-annuelle")
-    public Graph getCapitalisationAnnuelle(@ModelAttribute("graphFilter") GraphFilter graphFilter) throws ParseException {
+    public Graph getCapitalisationAnnuelle(@ModelAttribute("graphFilter") GraphFilter graphFilter) {
         GraphFilter graphFilterSession = getGraphFilterFromSession(graphFilter);
-        return graphService.getGraphData(graphFilterSession);
+        return graphService.getCapitalisationAnnuelleGraphData(graphFilterSession);
+    }
+
+    @GetMapping("/cap-mensuelle")
+    public Graph getCapitalisationMensuelle(@ModelAttribute("graphFilter") GraphFilter graphFilter) {
+        GraphFilter graphFilterSession = getGraphFilterFromSession(graphFilter);
+        return graphService.getCapitalisationMensuelleGraphData(graphFilterSession);
     }
 }

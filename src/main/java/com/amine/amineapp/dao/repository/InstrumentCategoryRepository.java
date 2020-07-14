@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface InstrumentCategoryRepository extends CrudRepository<InstrumentCategory, String> {
 
-    @Query(value ="SELECT DISTINCT CLASSID FROM stg_fim_prmydtls", nativeQuery = true)
+    @Query(value = Queries.INSTRUMENT_CATEGORIES, nativeQuery = true)
     List<InstrumentCategory> findAllInstrumentCategories();
-
-    // @Query(value = "SELECT DISTINCT INSTRCTGRY, COUNT(INSTRID) AS VOLUMECATEGORIE FROM stg_fim_prmydtls WHERE INSTRSTATUS='ACTI' GROUP BY INSTRCTGRY", nativeQuery = true)
 }
