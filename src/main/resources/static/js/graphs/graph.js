@@ -1,7 +1,7 @@
 var drawCapitalisationGraph = function(typeCapitalisation, graphTitle, yAxisTitle, xAxisCategories, series) {
     Highcharts.chart(typeCapitalisation, {
         chart: {
-            type: 'column',
+            type: 'line'
         },
         title: {
             text: graphTitle
@@ -14,17 +14,35 @@ var drawCapitalisationGraph = function(typeCapitalisation, graphTitle, yAxisTitl
                 text: yAxisTitle
             }
         },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
         series: series
 
     });
 
     $(".highcharts-credits").hide();
-}
+};
+
+var getDateFromYear = function(year) {
+    if(year != null && year.length === 4)
+        return year + "-12-31";
+};
+
+var getDateSemestreFromYear = function(year) {
+    if(year != null && year.length === 4)
+        return year + "-06-30";
+};
 
 $("#capiAnnuelleForm").submit(function(e){
     $.get("graph/cap-annuelle", {
-        startDate: $("#startDate").val(),
-        endDate: $("#endDate").val()
+        startDate: getDateFromYear($("#startYear").val()),
+        endDate: getDateFromYear($("#endYear").val())
     })
         .done(function(data) {
             drawCapitalisationGraph('capitalisationAnnuelle', data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);
@@ -34,11 +52,11 @@ $("#capiAnnuelleForm").submit(function(e){
 
 $("#capiMensuelleForm").submit(function(e){
     $.get("graph/cap-mensuelle", {
-        startDate: $("#startDateM").val(),
-        endDate: $("#endDateM").val()
+        startDate: getDateSemestreFromYear($("#startSemestre").val()),
+        endDate: getDateSemestreFromYear($("#endSemestre").val())
     })
         .done(function(data) {
-            drawCapitalisationGraph('capitalisationMensuelle', data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);
+            drawCapitalisationGraph('capitalisationSemestrielle', data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);
         });
     e.preventDefault();
 });
@@ -102,3 +120,22 @@ Highcharts.chart('containervaleur', {
         }]
     }]
 });
+
+// $(function() {
+//     var yearSelectors = $('.year-selector');
+//     for(var yearSelector in yearSelectors){
+//         yearSelector.datepicker({
+//             changeYear: true,
+//             showButtonPanel: true,
+//             dateFormat: 'yy',
+//             onClose: function(dateText, inst) {
+//                 var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//                 $(this).datepicker('setDate', new Date(year, 1));
+//             }
+//         });
+//     }
+//
+//     $(".date-picker-year").focus(function () {
+//         $(".ui-datepicker-month").hide();
+//     });
+// });

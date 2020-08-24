@@ -35,6 +35,10 @@
   <!--<script src="https://code.highcharts.com/modules/accessibility.js"></script>-->
   <!-- AdminLTE -->
   <script type="text/javascript" th:src="@{/js/adminlte.js}"></script>
+  <script
+          src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+          crossorigin="anonymous"></script>
 
 </head>
 <!--
@@ -82,7 +86,6 @@ to get the desired effect
           <img th:src="@{/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Naja Moahed amine</a>
         </div>
       </div>
 
@@ -163,12 +166,12 @@ to get the desired effect
                   <form id="capiMensuelleForm" class="capitalisationForm" th:object="${graphFilter}">
                     <div class="form-row">
                       <div class="col">
-                        <label for="startDateM">Du</label>
-                        <input type="date" class="form-control" id="startDateM" placeholder="Choisissez une date">
+                        <label for="startSemestre">Du</label>
+                        <input type="text" class="form-control year-selector" id="startSemestre" placeholder="Choisissez le semèstre de l'année">
                       </div>
                       <div class="col">
-                        <label for="endDateM">Au</label>
-                        <input type="date" class="form-control" id="endDateM" placeholder="Choisissez une date">
+                        <label for="endSemestre">Au</label>
+                        <input type="text" class="form-control year-selector" id="endSemestre" placeholder="Choisissez le semèstre de l'année">
                       </div>
                       <div class="col">
                         <button type="submit" class="btn btn-primary mb-2 rechercherBtn">Rechercher</button>
@@ -185,7 +188,7 @@ to get the desired effect
                 <!--<canvas id="sales-chart" height="200"></canvas>-->
                 <!--</div>-->
 
-                <div id="capitalisationMensuelle">
+                <div id="capitalisationSemestrielle">
 
                 </div>
               </div>
@@ -204,12 +207,14 @@ to get the desired effect
                   <form id="capiAnnuelleForm" class="capitalisationForm" th:object="${graphFilter}">
                     <div class="form-row">
                       <div class="col">
-                        <label for="startDate">Du</label>
-                        <input type="date" class="form-control" th:field="*{startDate}" id="startDate" placeholder="Choisissez une date">
+                        <label for="startYear">Dernière année</label>
+                        <input type="text" class="form-control year-selector" id="startYear" placeholder="Choisissez une année"/>
+                        <!--<input type="date" class="form-control" th:field="*{startDate}" id="startDate" placeholder="Choisissez une année">-->
                       </div>
                       <div class="col">
-                        <label for="endDate">Au</label>
-                        <input type="date" class="form-control" th:field="*{endDate}" id="endDate" placeholder="Choisissez une date">
+                        <label for="endYear">Au</label>
+                        <input type="text" class="form-control year-selector" id="endYear" placeholder="Choisissez une année"/>
+                        <!--<input type="date" class="form-control year-selector" th:field="*{endDate}" id="endDate" placeholder="Choisissez une année">-->
                       </div>
                       <div class="col">
                         <button type="submit" class="btn btn-primary mb-2 rechercherBtn">Rechercher</button>

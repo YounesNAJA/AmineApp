@@ -11,9 +11,15 @@ import java.util.List;
 @Repository
 public interface GraphRepository extends CrudRepository<CapitalisationGraph, CapitalisationGraphId> {
 
+//    @Query(value = Queries.CAPITALISATION_ANNUELLE, nativeQuery = true)
+//    List<CapitalisationGraph> findCapitalisationAnnuelle(String startDate, String endDate);
+
     @Query(value = Queries.CAPITALISATION_ANNUELLE, nativeQuery = true)
     List<CapitalisationGraph> findCapitalisationAnnuelle(String startDate, String endDate);
 
-    @Query(value = Queries.CAPITALISATION_MENSUELLE, nativeQuery = true)
-    List<CapitalisationGraph> findCapitalisationMensuelle(String startDate, String endDate);
+//    @Query(value = Queries.CAPITALISATION_SEMESTRIELLE, nativeQuery = true)
+//    List<CapitalisationGraph> findCapitalisationMensuelle(String startDate, String endDate);
+
+    @Query(value = Queries.CAPITALISATION_SEMESTRIELLE, nativeQuery = true)
+    List<CapitalisationGraph> findCapitalisationSemestrielle(String startDate, String endDate);
 }

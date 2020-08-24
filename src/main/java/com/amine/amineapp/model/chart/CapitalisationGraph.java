@@ -10,7 +10,7 @@ public class CapitalisationGraph {
     private CapitalisationGraphId capitalisationGraphId;
 
     @Column(name = "CAPI")
-    private Double capi;
+    protected Double capi;
 
     public CapitalisationGraphId getCapitalisationGraphId() {
         return capitalisationGraphId;

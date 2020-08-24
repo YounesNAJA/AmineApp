@@ -10,7 +10,7 @@ public class CapitalisationGraphId implements Serializable {
     private String categorie;
 
     @Column(name = "ANNEE")
-    private Integer annee;
+    private Integer date;
 
     public String getCategorie() {
         return categorie;
@@ -20,11 +20,11 @@ public class CapitalisationGraphId implements Serializable {
         this.categorie = categorie;
     }
 
-    public Integer getAnnee() {
-        return annee;
+    public Integer getDate() {
+        return date;
     }
 
-    public void setAnnee(Integer annee) {
-        this.annee = annee;
+    public void setDate(Integer date) {
+        this.date = date;
     }
 }
