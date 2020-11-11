@@ -165,9 +165,17 @@ to get the desired effect
                 <div class="row">
                   <form id="capiMensuelleForm" class="capitalisationForm" th:object="${graphFilter}">
                     <div class="form-row">
+<!--                      <div class="col">-->
+<!--                        <label for="startSemestre">Du</label>-->
+<!--                        <input type="text" class="form-control year-selector" id="startSemestre" placeholder="Choisissez le semèstre de l'année">-->
+<!--                      </div>-->
                       <div class="col">
-                        <label for="startSemestre">Du</label>
-                        <input type="text" class="form-control year-selector" id="startSemestre" placeholder="Choisissez le semèstre de l'année">
+                        <label for="semestre">Choisir le semestre</label>
+                        <select class="form-control year-selector" id="semestre">
+                          <option>Veuillez choisir un semestre...</option>
+                          <option value="1">Semestre 1</option>
+                          <option value="2">Semestre 2</option>
+                        </select>
                       </div>
                       <div class="col">
                         <label for="endSemestre">Au</label>
@@ -206,13 +214,13 @@ to get the desired effect
                 <div class="row">
                   <form id="capiAnnuelleForm" class="capitalisationForm" th:object="${graphFilter}">
                     <div class="form-row">
+<!--                      <div class="col">-->
+<!--                        <label for="startYear">Dernière année</label>-->
+<!--                        <input type="text" class="form-control year-selector" id="startYear" placeholder="Choisissez une année"/>-->
+<!--                        &lt;!&ndash;<input type="date" class="form-control" th:field="*{startDate}" id="startDate" placeholder="Choisissez une année">&ndash;&gt;-->
+<!--                      </div>-->
                       <div class="col">
-                        <label for="startYear">Dernière année</label>
-                        <input type="text" class="form-control year-selector" id="startYear" placeholder="Choisissez une année"/>
-                        <!--<input type="date" class="form-control" th:field="*{startDate}" id="startDate" placeholder="Choisissez une année">-->
-                      </div>
-                      <div class="col">
-                        <label for="endYear">Au</label>
+                        <label for="endYear">Dernière année</label>
                         <input type="text" class="form-control year-selector" id="endYear" placeholder="Choisissez une année"/>
                         <!--<input type="date" class="form-control year-selector" th:field="*{endDate}" id="endDate" placeholder="Choisissez une année">-->
                       </div>

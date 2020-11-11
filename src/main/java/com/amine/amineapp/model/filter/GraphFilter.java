@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class GraphFilter {
-    @DateTimeFormat(pattern = "yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     public GraphFilter(Date startDate, Date endDate) {

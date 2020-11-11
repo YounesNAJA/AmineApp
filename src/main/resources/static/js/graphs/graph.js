@@ -34,14 +34,26 @@ var getDateFromYear = function(year) {
         return year + "-12-31";
 };
 
-var getDateSemestreFromYear = function(year) {
-    if(year != null && year.length === 4)
-        return year + "-06-30";
+var getDateSemestreFromYear = function(year, semestre) {
+    if(semestre != null && semestre.length === 1){
+        if(semestre === '1') {
+            if(year != null && year.length === 4) {
+                console.log("year + \"-06-30\" " + year + "-06-30");
+                return year + "-06-30";
+            }
+        } else {
+            if(year != null && year.length === 4) {
+                console.log('year + "-12-31"' + year + "-12-31");
+                return year + "-12-31";
+            }
+        }
+    }
 };
 
 $("#capiAnnuelleForm").submit(function(e){
+    var startYear = $("#endYear").val() - 1;
     $.get("graph/cap-annuelle", {
-        startDate: getDateFromYear($("#startYear").val()),
+        startDate: getDateFromYear(String(startYear)),
         endDate: getDateFromYear($("#endYear").val())
     })
         .done(function(data) {
@@ -51,9 +63,10 @@ $("#capiAnnuelleForm").submit(function(e){
 });
 
 $("#capiMensuelleForm").submit(function(e){
+    var startSemestreYear = $("#endSemestre").val() - 1;
     $.get("graph/cap-mensuelle", {
-        startDate: getDateSemestreFromYear($("#startSemestre").val()),
-        endDate: getDateSemestreFromYear($("#endSemestre").val())
+        startDate: getDateSemestreFromYear(String(startSemestreYear), $("#semestre").val()),
+        endDate: getDateSemestreFromYear($("#endSemestre").val(), $("#semestre").val())
     })
         .done(function(data) {
             drawCapitalisationGraph('capitalisationSemestrielle', data.graphTitle, data.yAxisTitle, data.xAxisCategories, data.graphSeries);

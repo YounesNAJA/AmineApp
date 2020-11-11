@@ -31,6 +31,7 @@ public class GraphController {
 
     @GetMapping("/cap-annuelle")
     public Graph getCapitalisationAnnuelle(@ModelAttribute("graphFilter") GraphFilter graphFilter) throws ParseException {
+        // @ModelAttribute("graphFilter") GraphFilter graphFilter
         //GraphFilter graphFilterSession = getGraphFilterFromSession(graphFilter);
         return graphService.getCapitalisationAnnuelleGraphData(graphFilter);
     }
